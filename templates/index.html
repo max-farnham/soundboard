@@ -1,0 +1,158 @@
+k<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Soundboard</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #fafafa;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .upload-box {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        /* ANIMATED SOUND TILES */
+        .sound-button {
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            text-align: center;
+            cursor: pointer;
+
+            /* main animation transitions */
+            transition: 
+                transform 0.2s ease,
+                box-shadow 0.25s ease,
+                background 0.25s ease;
+            
+            font-size: 22px;
+        }
+
+        /* Hover animation */
+        .sound-button:hover {
+            transform: translateY(-6px) scale(1.05);
+            box-shadow: 0 10px 22px rgba(0,0,0,0.18);
+        }
+
+        /* Press animation */
+        .sound-button:active {
+            transform: scale(0.97);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+        }
+
+        /* Optional subtle glow animation on hover */
+        .sound-button:hover {
+            animation: glow 1.2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                background: white;
+            }
+            to {
+                background: #f0f8ff; /* light blue tint */
+            }
+        }
+
+        .icon {
+            font-size: 42px;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        button.stop-btn {
+            padding: 12px 24px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Soundboard</h1>
+
+    <!-- STOP ALL SOUNDS BUTTON -->
+    <div style="text-align:center; margin-bottom:20px;">
+        <button class="stop-btn" onclick="stopAllSounds()">⛔ Stop All Sounds</button>
+    </div>
+
+    <!-- UPLOAD FORM -->
+    <div class="upload-box">
+        <form action="/api/v1/upload" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" accept="audio/*" required />
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+
+    <!-- SOUND GRID -->
+    <div class="grid">
+        {% for file_url in files %}
+
+            {% set display = file_url.split('/')[-1].split('-', 1)[1].replace('_',' ').rsplit('.',1)[0] %}
+            
+            {% if "Trombone" in display %}
+                {% set icon = "🎺" %}
+            {% elif "Applause" in display %}
+                {% set icon = "👏" %}
+            {% elif "Crickets" in display %}
+                {% set icon = "🦗" %}
+            {% elif "Explosion" in display %}
+                {% set icon = "💥" %}
+            {% elif "Wind" in display %}
+                {% set icon = "🌬️" %}
+            {% elif "Jeopardy" in display %}
+                {% set icon = "⏳" %}
+            {% else %}
+                {% set icon = "🎵" %}
+            {% endif %}
+
+            <div class="sound-button" onclick="playSound('{{ file_url }}')">
+                <span class="icon">{{ icon }}</span>
+                <strong>{{ display }}</strong>
+            </div>
+
+        {% endfor %}
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        let playingSounds = [];
+
+        function playSound(url) {
+            const audio = new Audio(url);
+            audio.play();
+            playingSounds.push(audio);
+        }
+
+        function stopAllSounds() {
+            playingSounds.forEach(a => {
+                a.pause();
+                a.currentTime = 0;
+            });
+            playingSounds = [];
+        }
+    </script>
+
+</body>
+</html>
+
