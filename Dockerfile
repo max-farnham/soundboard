@@ -20,7 +20,7 @@ ENV PYTHONUNBUFFERED=1
 CMD ["python", "src/app.py"]
 
 # Expose the port Flask runs on
-EXPOSE 5000
+EXPOSE 8080
 
 # Run the Flask app
 CMD ["python", "src/app.py"]
