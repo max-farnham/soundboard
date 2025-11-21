@@ -12,7 +12,18 @@ Few things are funnier than a well-timed sound effect. With my soundboard app, a
 ## Architecture Diagram
 ![Architecture Diagram](assets/architecture.png)
 ## Data/Models/Services
-
+Sound Effects:
+- Extracted from YouTube videos (see individual sources in /assets); converted to .m4a; total size ~500 KiB. Use of these files is for educational/fair-use purposes only. Consider replacing with royalty-free sounds for redistribution.
+- See **assets/youtube_links** for links to sound effect sources
+Services:
+- Flask - Backend framework handling routing and serving audio files.
+- Azure - Storage
+- Docker - Containerization for consistent deployment across environments.
+- Github - Source code hosting and version control.
+- Youtube - Source of the sound effects (used under educational/fair-use conditions).
+- ChatGPT - Assisted in creating the architecture diagram for documentation.
+- Python/Pip – Runtime and package management.
+- HTML - Frontend for the soundboard UI.
 
 # 3) How to Run (Local)
 ## Build
