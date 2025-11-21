@@ -18,3 +18,5 @@ ENV PYTHONUNBUFFERED=1
 
 # Run the Flask app
 CMD ["python", "src/app.py"]
+
+EXPOSE 5000
