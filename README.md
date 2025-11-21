@@ -21,10 +21,11 @@ docker run --rm -p 8080:8080 --env-file .env soundboard
 To run the application, create a `.env` file in the project root.  
 Use the following variables:
 
+```
 STORAGE_ACCOUNT_URL=<your-azure-blob-storage-url>
 STORAGE_ACCOUNT_KEY=<your-azure-storage-key>
 AUDIO_CONTAINER=<your-container-name>
-
+```
 
 # 4) Design Decisions
 ## Why this concept?
